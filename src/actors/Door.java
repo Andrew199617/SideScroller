@@ -7,23 +7,26 @@ import greenfoot.Greenfoot;
 
 public class Door extends Actor {
 
-	private boolean start = false;
+	public boolean start = false;
 	private static boolean notifyToDel = false;
 	private int delay = 25;
-
+	String image;
 
 	public Door(String s){
 		setImage(s);
+		this.image = s;
 	}
 
 	public void act(){
 		List<Player> player = this.getObjectsInRange(40, Player.class);
 
-		if(!player.isEmpty()){
-			String key = Greenfoot.getKey();
-			if (key != null && key.equals("w")){
-				this.setImage("images/Door_Open_Exit.png");
-				start = true;
+		if(image != "images/Door_Open_Exit.png" && image != "images/Door_Open.png") {
+			if(!player.isEmpty()){
+				String key = Greenfoot.getKey();
+				if (key != null && key.equals("w")){
+					this.setImage("images/Door_Open_Exit.png");
+					start = true;
+				}
 			}
 		}
 
