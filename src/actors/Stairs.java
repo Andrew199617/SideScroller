@@ -10,16 +10,14 @@ public class Stairs extends Interacteble {
 		image = "images/Stairs.png";
 		setImage(image);
 		this.player = player;
+		useButOne = "w";
+		useButTwo = "s";
 	}
 
 	@Override
 	public void act() {
+			
 		
-		
-		useButOne = "w";
-		useButTwo = "s";
-		checkButOne();
-		checkButTwo();
 		doActionOne();
 		doActionTwo();
 

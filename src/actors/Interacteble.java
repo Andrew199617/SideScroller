@@ -2,6 +2,7 @@ package actors;
 
 import java.util.List;
 
+import world.BeginningMap;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
 
@@ -12,7 +13,9 @@ public abstract class Interacteble extends Actor {
 	protected boolean inTheActTwo = false;
 	protected boolean butPressedOne = false;
 	protected boolean butPressedTwo = false;
-	protected boolean notifPlayer = false;
+	protected boolean notifPlayerOne = false;
+	protected boolean notifPlayerTwo = false;
+	protected boolean oneNotif = true;
 	protected int xLoc;
 	protected int yLoc;
 	protected String image = "";
@@ -21,18 +24,20 @@ public abstract class Interacteble extends Actor {
 
 	public abstract void act();
 
-	public void checkButOne(){
+	public boolean checkButOne(){
 		String key = Greenfoot.getKey();
 		butPressedOne = (key != null && key.equals(useButOne));
-//		if(butPressedOne) inTheActOne = true;
-//		else inTheActOne = false;
+		return butPressedOne;
+		//		if(butPressedOne) inTheActOne = true;
+		//		else inTheActOne = false;
 	}
 
-	public void checkButTwo(){
+	public boolean checkButTwo(){
 		String key = Greenfoot.getKey();
 		butPressedTwo = (key != null && key.equals(useButTwo));
-//		if(butPressedTwo) inTheActTwo = true;
-//		else inTheActTwo = false;
+		return butPressedTwo;
+		//		if(butPressedTwo) inTheActTwo = true;
+		//		else inTheActTwo = false;
 	}
 
 	public void delete(){
@@ -44,55 +49,51 @@ public abstract class Interacteble extends Actor {
 	public void doActionOne(){
 		List<Player> player = this.getIntersectingObjects(Player.class);
 
-		if(!inTheActTwo){
-			if(Greenfoot.isKeyDown(useButOne)){
-				if(!player.isEmpty()){
-					if(!notifPlayer){
-						one_PlayerToDo();
-						inTheActOne = true;
-						notifPlayer = true;
-					}
-				}
-				else{
-					one_PlayerNot();
-					inTheActOne = false;
-					notifPlayer = false;
-				}
-			}
-			else if(!butPressedOne && notifPlayer){
-				one_PlayerNot();
-				inTheActOne = false;
-				notifPlayer = false;
-			}
-		}
+		doActionSubset(player, inTheActTwo, useButOne, inTheActOne, notifPlayerOne, checkButOne(),true);
 
 	}
 
 	public void doActionTwo(){
 		List<Player> player = this.getIntersectingObjects(Player.class);
 
-		if(!inTheActOne){
-			if(Greenfoot.isKeyDown(useButTwo)){
+		doActionSubset(player,inTheActOne, useButTwo, inTheActTwo,notifPlayerTwo,checkButTwo(),false);
+
+	}
+
+	private void doActionSubset(List<Player> player, boolean inTheActOther, String useButSelf, boolean inTheActSelf
+			,boolean notifyPlayerSelf, boolean butPressedSelf, boolean isOne) {
+
+		if(!inTheActOther){
+			if(Greenfoot.isKeyDown(useButSelf) ){
 				if(!player.isEmpty()){
-					if(!notifPlayer){
-						Two_PlayerToDo();
-						inTheActTwo = true;
-						notifPlayer = true;
-					}
+					whatMethodToDo(isOne);
+					inTheActSelf = true;
 				}
-				else{
-					Two_PlayerNot();
-					inTheActTwo = false;
-					notifPlayer = false;
+				else if (player.isEmpty()){
+					whatMethodNot(isOne);
+					inTheActSelf = false;
 				}
-			}
-			else if(!butPressedTwo && notifPlayer){
-				Two_PlayerNot();
-				inTheActTwo = false;
-				notifPlayer = false;
 			}
 		}
+		
+	}
 
+	private void whatMethodToDo(boolean isOne){
+		if(isOne){
+			one_PlayerToDo();
+		}
+		else{
+			Two_PlayerToDo();
+		}
+	}
+
+	private void whatMethodNot(boolean isOne){
+		if(isOne){
+			one_PlayerNot();
+		}
+		else{
+			Two_PlayerNot();
+		}
 	}
 
 	public abstract void one_PlayerToDo();

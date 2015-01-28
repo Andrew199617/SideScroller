@@ -11,6 +11,7 @@ public class Door extends Actor {
 	private static boolean notifyToDel = false;
 	private int delay = 25;
 	String image;
+	private static boolean openable = true;
 
 	public Door(String s){
 		setImage(s);
@@ -20,7 +21,7 @@ public class Door extends Actor {
 	public void act(){
 		List<Player> player = this.getObjectsInRange(40, Player.class);
 
-		if(image != "images/Door_Open_Exit.png" && image != "images/Door_Open.png") {
+		if(openable && image != "images/Door_Open_Exit.png" && image != "images/Door_Open.png") {
 			if(!player.isEmpty()){
 				String key = Greenfoot.getKey();
 				if (key != null && key.equals("w")){
@@ -50,5 +51,13 @@ public class Door extends Actor {
 	public static void setNotifyToDel(boolean notifyToDel) {
 		Door.notifyToDel = notifyToDel;
 	}
+	
+	public static void openable(){
+		openable = true;
+	}
 
+	public static void notOpenable(){
+		openable = false;
+	}
+	
 }

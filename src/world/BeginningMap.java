@@ -7,9 +7,11 @@ import interfaces.IMaps;
 import actors.Door;
 import actors.Note;
 import actors.NoteWASD;
+import actors.Platform;
 import actors.Player;
 import actors.Stairs;
 import actors.StickyNote;
+import actors.Switch;
 import greenfoot.World;
 
 public class BeginningMap extends World implements IMaps{
@@ -17,16 +19,19 @@ public class BeginningMap extends World implements IMaps{
 	private int delay = 50;
 	public static final int WORLDHEIGHT = 810;
 	public static final int WORLDWIDTH = 1440;
-	private static final int PLAYERHEIGHT = 127;
+	public static final int PLAYERHEIGHT = 127;
 	private static final int DOORHEIGHTE = 165;
 	private static final int DOORHEIGHT = 140;
-	private static final int STAIRHEIGHT = 379;
+	
+	private static final int STAIRHEIGHT = 300;
 	public static int WalkingPlane = (WORLDHEIGHT -142);
+	private static final int PLATFORMPLANE = WalkingPlane - STAIRHEIGHT + (Platform.PLATFORMHEIGHT/2) + 10;
 	public static int playerWalkingPlane = (WORLDHEIGHT -142)-(PLAYERHEIGHT/2);
 	
 	
 	public BeginningMap() {
 		super(WORLDWIDTH ,WORLDHEIGHT, 1);
+		
 		this.getBackground().setColor(Color.BLACK);
 		this.getBackground().fill();
 		
@@ -46,12 +51,11 @@ public class BeginningMap extends World implements IMaps{
 		
 		StickyNote sn = new StickyNote();
 		this.addObject(sn, WORLDWIDTH/2, WORLDHEIGHT/2);
-				
-		
+			
 		NoteWASD wasd = new NoteWASD();
 		this.addObject(wasd, WORLDWIDTH/2, WORLDHEIGHT/2);
 		
-		
+//		Door.setNotifyToDel(true);
 		
 	}
 	
@@ -62,18 +66,25 @@ public class BeginningMap extends World implements IMaps{
 				delay--;
 			}
 			else{
+				
 				Map_1 map1 = new Map_1();
 				this.addObject(map1, WORLDWIDTH/2, WORLDHEIGHT/2);
 				
 				Player player = new Player();
 				
+				exit();
+				
 				Stairs stair = new Stairs(player);
 				this.addObject(stair, 400, WalkingPlane - (STAIRHEIGHT/2));
 				
+				Switch sch = new Switch();
+				this.addObject(sch, 520, PLATFORMPLANE - 80);
 				
 				enter(100,WalkingPlane, player);
 				Door.setNotifyToDel(false);
 				
+				Platform plat = new Platform(player);
+				this.addObject(plat, 400, PLATFORMPLANE);
 				
 			}
 		}
@@ -83,7 +94,7 @@ public class BeginningMap extends World implements IMaps{
 	public void exit() {
 		Door door = new Door("images/Door_Exit.png");
 		this.addObject(door, WORLDWIDTH - 150, WalkingPlane - (DOORHEIGHTE/2));
-		door.start = true;
+//		door.start = true;s
 	}
 
 	@Override
