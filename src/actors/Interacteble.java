@@ -22,8 +22,11 @@ public abstract class Interacteble extends Actor {
 	protected String useButOne;
 	protected String useButTwo;
 
+	
+	
 	public abstract void act();
 
+	
 	public boolean checkButOne(){
 		String key = Greenfoot.getKey();
 		butPressedOne = (key != null && key.equals(useButOne));

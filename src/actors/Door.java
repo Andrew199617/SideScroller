@@ -9,23 +9,26 @@ public class Door extends Actor {
 
 	public boolean start = false;
 	private static boolean notifyToDel = false;
-	private int delay = 25;
+	private int delay = 50;
 	String image;
 	private static boolean openable = true;
 
 	public Door(String s){
-		setImage(s);
+		changeImage(s);
 		this.image = s;
 	}
 
 	public void act(){
+		@SuppressWarnings("unchecked")
 		List<Player> player = this.getObjectsInRange(40, Player.class);
 
+		imageOpenable();
+		
 		if(openable && image != "images/Door_Open_Exit.png" && image != "images/Door_Open.png") {
 			if(!player.isEmpty()){
 				String key = Greenfoot.getKey();
 				if (key != null && key.equals("w")){
-					this.setImage("images/Door_Open_Exit.png");
+					changeImage("images/Door_Open_Exit.png");
 					start = true;
 				}
 			}
@@ -38,9 +41,9 @@ public class Door extends Actor {
 			else if(delay == 0){
 				setNotifyToDel(true);
 				this.getWorld().removeObject(this);
+				openable = false;
 			}
 		}
-
 
 	}
 
@@ -59,5 +62,22 @@ public class Door extends Actor {
 	public static void notOpenable(){
 		openable = false;
 	}
+	
+	public void imageOpenable(){
+	
+		if(openable && image == "images/Door_Exit.png"){
+			changeImage("images/Door_Exit_Green.png");
+		}
+		else if (image == "images/Door_Exit.png"){
+			changeImage("images/Door_Exit.png");
+		}
+		
+	}
+	
+	public void changeImage(String image){
+		this.image = image;
+		this.setImage(image);
+	}
+	
 	
 }

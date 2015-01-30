@@ -4,8 +4,6 @@ package actors;
 public class Stairs extends Interacteble {
 
 	
-
-
 	public Stairs(Player player){
 		image = "images/Stairs.png";
 		setImage(image);

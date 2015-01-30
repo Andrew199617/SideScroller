@@ -1,10 +1,5 @@
 package actors;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.List;
-
-import javax.swing.text.DefaultEditorKit.BeepAction;
 
 import enums.JumpAni;
 import world.BeginningMap;
